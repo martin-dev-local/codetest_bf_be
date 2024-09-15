@@ -1,6 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using CodetestBF.WebApi.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var contextOptions = new DbContextOptionsBuilder<CodetestBFDb>()
+    .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test;ConnectRetryCount=0")
+    .Options;
+
+// Add DbContext to the DI container
+builder.Services.AddDbContext<CodetestBFDb>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConn")));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
