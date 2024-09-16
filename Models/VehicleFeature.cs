@@ -10,6 +10,6 @@ public class VehicleFeature
     public List<Vehicle> vehicles { get; } = [];
 
     [Required]
-    [StringLength(50)]
+    [StringLength(50), MinLength(1)]
     public required string Name { get; set; }
 }

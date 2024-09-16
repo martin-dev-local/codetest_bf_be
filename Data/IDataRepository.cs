@@ -6,6 +6,11 @@ public interface IDataRepository
 {
     public Task<VehicleDTO?> GetVehicle(int id);
 
+    public Task<List<VehicleDTO>> GetVehicleByVinNumber(string VinNumber);
+
+    public Task<List<VehicleDTO>> GetVehicleByLicensePlate(string LicensePlate);
+    public Task<List<VehicleDTO>> GetVehicleByModelName(string ModelName);
+
     public Task<List<VehicleDTO>> GetVehicles();
 
     public Task<List<BrandDTO>> GetBrands();
@@ -16,5 +21,8 @@ public interface IDataRepository
     public VehicleFeatureDTO VehicleFeatureToDTO(VehicleFeature vf);
 
     public Task<VehicleDTO?> CreateVehicle(VehicleDTO vehicleDTO);
+
+    public Task<VehicleDTO?> UpdateVehicle(VehicleDTO vehicleDTO);
+
 
 }

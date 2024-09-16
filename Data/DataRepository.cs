@@ -86,12 +86,76 @@ public class DataRepository : IDataRepository
         return VehicleToDTO(v);
     }
 
+    private async Task<Vehicle?> GetVehicleEF(int id)
+    {
+        return await _dbContext.vehicles.Include(v => v.VehicleBrand).Include(v => v.features).FirstOrDefaultAsync(v => v.Id == id);
+    }
     public async Task<VehicleDTO?> GetVehicle(int id)
     {
-        Vehicle? v = await _dbContext.vehicles.Include(v => v.VehicleBrand).Include(v => v.features).FirstOrDefaultAsync(v => v.Id == id);
+        Vehicle? v = await GetVehicleEF(id);
         if (v == null) {
             return null;
         }
         return VehicleToDTO(v);
+    }
+
+    public async Task<List<VehicleDTO>> GetVehicleByVinNumber(string VinNumber)
+    {
+        List<Vehicle> vs = await _dbContext.vehicles.Include(v => v.VehicleBrand).Include(v => v.features).Where(v => v.VinNumber.Contains(VinNumber)).ToListAsync();
+        List<VehicleDTO> vDtos = [];
+        foreach (Vehicle v in vs) {
+            VehicleToDTO(v);
+        } 
+        return vDtos;
+    }
+
+    public async Task<List<VehicleDTO>> GetVehicleByLicensePlate(string LicensePlate)
+    {
+        List<Vehicle> vs = await _dbContext.vehicles.Include(v => v.VehicleBrand).Include(v => v.features).Where(v => v.LicensePlate.Contains(LicensePlate)).ToListAsync();
+        List<VehicleDTO> vDtos = [];
+        foreach (Vehicle v in vs) {
+            VehicleToDTO(v);
+        } 
+        return vDtos;
+    }
+
+    public async Task<List<VehicleDTO>> GetVehicleByModelName(string ModelName)
+    {
+        List<Vehicle> vs = await _dbContext.vehicles.Include(v => v.VehicleBrand).Include(v => v.features).Where(v => v.ModelName.Contains(ModelName)).ToListAsync();
+        List<VehicleDTO> vDtos = [];
+        foreach (Vehicle v in vs) {
+            VehicleToDTO(v);
+        } 
+        return vDtos;
+    }
+
+    public async Task<VehicleDTO?> UpdateVehicle(VehicleDTO vehicleDTO)
+    {
+        Vehicle? persistedVehicle = await GetVehicleEF(vehicleDTO.Id);
+        if (persistedVehicle == null)
+        {
+            return null;
+        }
+        List<VehicleFeature> dbFeatures = await _dbContext.features.Where(f => vehicleDTO.AssignedFeatures.Contains(f.Id)).ToListAsync();
+        Brand? b = await _dbContext.brands.FindAsync(vehicleDTO.BrandId);
+        if (b == null)
+        {
+            return null;
+        }
+        if (vehicleDTO.AssignedFeatures.Count != dbFeatures.Count) {
+            return null;
+        }
+        persistedVehicle.features.Clear();
+        persistedVehicle.LicensePlate = vehicleDTO.LicensePlate;
+        persistedVehicle.ModelName = vehicleDTO.ModelName;
+        persistedVehicle.VinNumber = vehicleDTO.VinNumber;
+        persistedVehicle.BrandId = vehicleDTO.BrandId;
+        persistedVehicle.VehicleBrand = b;
+        persistedVehicle.features.AddRange(dbFeatures);
+        int affected = await _dbContext.SaveChangesAsync();
+        if (affected == 0) {
+            return null;
+        }
+        return VehicleToDTO(persistedVehicle);
     }
 }

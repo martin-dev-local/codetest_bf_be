@@ -56,4 +56,24 @@ public class VehicleController : ControllerBase
         }
         return CreatedAtAction(nameof(GetVehicle), new { id = NewVehicle.Id}, NewVehicle);
     }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(204)]
+    public async Task<IActionResult> Update(int id, [FromBody] VehicleDTO v)
+    {
+        if (v == null || v.Id != id)
+        {
+            return BadRequest();
+        }
+        VehicleDTO? exists = await _repo.GetVehicle(id);
+        if (exists == null)
+        {
+            return NotFound();
+        }
+        await _repo.UpdateVehicle(v);
+        return new NoContentResult();
+    }
+
 }
