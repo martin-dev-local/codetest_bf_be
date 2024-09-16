@@ -6,10 +6,11 @@ using Microsoft.Data.SqlClient;
 var builder = WebApplication.CreateBuilder(args);
 
 
-// Add DbContext to the DI container
+// Add DbContext and repo to the DI container
 builder.Services.AddDbContext<CodetestBFDb>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConn")));
-
+//builder.Services.AddTransient<CodetestBFDb, CodetestBFDb>();
+builder.Services.AddTransient<IDataRepository, DataRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

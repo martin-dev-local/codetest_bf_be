@@ -2,11 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CodetestBF.WebApi.Models;
 
-public class Brand
+public class VehicleFeatureDTO
 {
     public int Id { get; set; }
-
     [Required]
-    [StringLength(40)]
     public required string Name { get; set; }
 }

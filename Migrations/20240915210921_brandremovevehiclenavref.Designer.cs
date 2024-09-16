@@ -12,7 +12,7 @@ namespace CodetestBF.WebApi.Migrations
 {
     [DbContext(typeof(CodetestBFDb))]
     [Migration("20240915210921_brandremovevehiclenavref")]
-    partial class brandremovevehiclenavref
+    partial class Brandremovevehiclenavref
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -17,13 +17,13 @@ public class Vehicle
 
     [Required]
     [StringLength(40)]
-    public string? VinNumber { get; set; }
+    public required string VinNumber { get; set; }
 
     [Required]
     [StringLength(12)]
-    public string? LicensePlate { get; set; }
+    public required string LicensePlate { get; set; }
 
     [Required]
     [StringLength(30)]
-    public string? ModelName { get; set; }
+    public required string ModelName { get; set; }
 }

@@ -7,7 +7,7 @@
 namespace CodetestBF.WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class brandremovevehiclenavref : Migration
+    public partial class Brandremovevehiclenavref : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
