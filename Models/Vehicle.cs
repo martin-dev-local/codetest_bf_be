@@ -8,10 +8,10 @@ public class Vehicle
     public int Id { get; set; }
 
     //en-till-en relation gentemot märke
-    public required Brand VehicleBrand{ get; set; }
+    public Brand? VehicleBrand{ get; set; }
 
     [ForeignKey("Brand")]
-    public int BrandId { get; set; }
+    public required int BrandId { get; set; }
     //många-till-många relation gentemot egenskaper
     public List<VehicleFeature> features { get; } = [];
 

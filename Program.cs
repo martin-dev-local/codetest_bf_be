@@ -5,9 +5,6 @@ using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var contextOptions = new DbContextOptionsBuilder<CodetestBFDb>()
-    .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test;ConnectRetryCount=0")
-    .Options;
 
 // Add DbContext to the DI container
 builder.Services.AddDbContext<CodetestBFDb>(options =>

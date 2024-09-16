@@ -3,6 +3,7 @@ using CodetestBF.WebApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodetestBF.WebApi.Migrations
 {
     [DbContext(typeof(CodetestBFDb))]
-    partial class CodetestBFDbModelSnapshot : ModelSnapshot
+    [Migration("20240915215532_ChangeRequireOfBrand")]
+    partial class ChangeRequireOfBrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,6 +90,14 @@ namespace CodetestBF.WebApi.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("vehicles");
+
+
+                    b.HasData(new
+                        {
+                            Id = 1,
+                            BrandId = 1,
+                            ModelName = "Focus", VinNumber = "VIN001", LicensePlate = "ABC001"
+                        });
                 });
 
             modelBuilder.Entity("CodetestBF.WebApi.Models.VehicleFeature", b =>
