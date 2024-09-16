@@ -24,5 +24,6 @@ public interface IDataRepository
 
     public Task<VehicleDTO?> UpdateVehicle(VehicleDTO vehicleDTO);
 
+    public Task<bool?> DeleteVehicle(int id);
 
 }

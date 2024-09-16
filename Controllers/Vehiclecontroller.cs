@@ -76,4 +76,25 @@ public class VehicleController : ControllerBase
         return new NoContentResult();
     }
 
+    [HttpDelete("{id}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> DeleteVehicle(int id)
+    {
+        VehicleDTO? exists = await _repo.GetVehicle(id);
+        if (exists == null)
+        {
+            return NotFound();
+        }
+        bool? deleted = await _repo.DeleteVehicle(id);
+        if (deleted.HasValue && deleted.Value)
+        {
+            return new NoContentResult();
+        } else
+        {
+            return BadRequest("Failed to delete");
+        }
+    }
+
 }

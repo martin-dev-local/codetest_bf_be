@@ -158,4 +158,20 @@ public class DataRepository : IDataRepository
         }
         return VehicleToDTO(persistedVehicle);
     }
+
+    public async Task<bool?> DeleteVehicle(int id)
+    {
+        Vehicle? v = await GetVehicleEF(id);
+        if (v == null)
+        {
+            return null;
+        }
+        _dbContext.vehicles.Remove(v);
+        int affected = await _dbContext.SaveChangesAsync();
+        if (affected == 0) 
+        {
+            return false;
+        }
+        return true;
+    }
 }
