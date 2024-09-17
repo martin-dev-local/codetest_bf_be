@@ -31,6 +31,16 @@ public class DataRepository : IDataRepository
         return brandsDto;
     }
 
+     public async Task<BrandDTO?> GetBrand(int id) {
+        List<BrandDTO> brandsDto = [];
+        Brand? brand = await _dbContext.brands.FindAsync(id);
+        if (brand == null)
+        {
+            return null;
+        }
+        return BrandToDTO(brand);
+    }
+
     public async Task<List<VehicleFeatureDTO>> GetVehicleFeatures() {
         List<VehicleFeatureDTO> vfsDto = [];
         List<VehicleFeature> vfs = await _dbContext.features.ToListAsync();
@@ -40,14 +50,19 @@ public class DataRepository : IDataRepository
         return vfsDto;
     }
 
+    public async Task<VehicleFeatureDTO?> GetVehicleFeature(int id) {
+        VehicleFeature? vf = await _dbContext.features.FindAsync(id);
+        if (vf == null)
+        {
+            return null;
+        }
+        return VehicleFeatureToDTO(vf);
+    }
+
     public VehicleDTO VehicleToDTO(Vehicle v) {
         VehicleDTO vDto = new() {Id = v.Id, ModelName = v.ModelName, VinNumber = v.VinNumber, LicensePlate = v.LicensePlate};
         vDto.BrandId = v.BrandId;
-        if (v.VehicleBrand != null) {
-            vDto.Brand = BrandToDTO(v.VehicleBrand);
-        }
         foreach (VehicleFeature vf in v.features) {
-            vDto.Features.Add(VehicleFeatureToDTO(vf));
             vDto.AssignedFeatures.Add(vf.Id);
         }
         return vDto;
@@ -65,7 +80,9 @@ public class DataRepository : IDataRepository
 
     public async Task<VehicleDTO?> CreateVehicle(VehicleDTO vehicleDto)
     {
-        
+        /* Verify that brand exists and features exists and the number of 
+        existing features correspond with requested*/
+
         Vehicle v = new() {BrandId = vehicleDto.BrandId, LicensePlate = vehicleDto.LicensePlate, 
         ModelName = vehicleDto.ModelName, VinNumber = vehicleDto.VinNumber};
         List<VehicleFeature> dbFeatures = await _dbContext.features.Where(f => vehicleDto.AssignedFeatures.Contains(f.Id)).ToListAsync();
@@ -73,6 +90,7 @@ public class DataRepository : IDataRepository
         if (b == null) {
             return null;
         }
+        
         if (vehicleDto.AssignedFeatures.Count != dbFeatures.Count) {
             return null;
         }
@@ -86,6 +104,7 @@ public class DataRepository : IDataRepository
         return VehicleToDTO(v);
     }
 
+    /* private function to get the raw entity used by several functions especially to check for existence in DB*/ 
     private async Task<Vehicle?> GetVehicleEF(int id)
     {
         return await _dbContext.vehicles.Include(v => v.VehicleBrand).Include(v => v.features).FirstOrDefaultAsync(v => v.Id == id);
@@ -131,6 +150,9 @@ public class DataRepository : IDataRepository
 
     public async Task<VehicleDTO?> UpdateVehicle(VehicleDTO vehicleDTO)
     {
+        /* Verify that vehicle and brand exists and features exists and the number of 
+        existing features correspond with requested*/
+
         Vehicle? persistedVehicle = await GetVehicleEF(vehicleDTO.Id);
         if (persistedVehicle == null)
         {

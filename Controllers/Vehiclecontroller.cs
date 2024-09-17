@@ -42,6 +42,7 @@ public class VehicleController : ControllerBase
         }
         return Ok(v);
     }
+    
     [HttpPost(Name = "CreateVehicle")]
     [ProducesResponseType(201, Type = typeof(VehicleDTO))]
     [ProducesResponseType(400)]

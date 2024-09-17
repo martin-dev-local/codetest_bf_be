@@ -24,4 +24,17 @@ public class VehicleFeatureController : ControllerBase
     {
         return _repo.GetVehicleFeatures();
     }
+
+    [HttpGet]
+    [Route("{id}")]
+    [ProducesResponseType(200, Type = typeof(VehicleFeatureDTO))]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> GetBrand(int id)
+    {
+        VehicleFeatureDTO? vf = await _repo.GetVehicleFeature(id);
+        if (vf == null) {
+            return NotFound();
+        }
+        return Ok(vf);
+    }
 }

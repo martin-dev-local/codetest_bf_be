@@ -1,6 +1,3 @@
 @CodetestBF.WebApi_HostAddress = http://localhost:5022
 
-GET {{CodetestBF.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###

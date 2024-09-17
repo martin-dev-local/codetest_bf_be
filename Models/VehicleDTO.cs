@@ -6,7 +6,7 @@ public class VehicleDTO
     public int Id { get; set; }
     public int BrandId { get; set; }
 
-    public BrandDTO? Brand { get; set; }
+    //public BrandDTO? Brand { get; set; }
 
     [Required]
     [StringLength(30), MinLength(1)]
@@ -24,5 +24,5 @@ public class VehicleDTO
          ErrorMessage = "Characters are not allowed.")]
     public required string LicensePlate { get; set; }
     public List<int> AssignedFeatures { get; set; } = [];
-    public List<VehicleFeatureDTO> Features { get; set; } = [];
+    //public List<VehicleFeatureDTO> Features { get; set; } = [];
 }

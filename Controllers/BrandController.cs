@@ -24,4 +24,17 @@ public class BrandController : ControllerBase
     {
         return _repo.GetBrands();
     }
+
+    [HttpGet]
+    [Route("{id}")]
+    [ProducesResponseType(200, Type = typeof(BrandDTO))]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> GetBrand(int id)
+    {
+        BrandDTO? b = await _repo.GetBrand(id);
+        if (b == null) {
+            return NotFound();
+        }
+        return Ok(b);
+    }
 }
