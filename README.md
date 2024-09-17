@@ -8,3 +8,5 @@ som att införa en versionskolumn som följer med vid uppdatering och jämförs 
 Ingen gräns inlagd för antal i svaret eller pagination implementerad.
 
 DataRepository kunde delats in i fler individuella repositories.
+
+Loggning kunde lagts in i synnerhet för spår eller debug som då också behöver saniteras innan det sparas i DB.
