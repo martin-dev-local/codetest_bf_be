@@ -10,3 +10,6 @@ Ingen gräns inlagd för antal i svaret eller pagination implementerad.
 DataRepository kunde delats in i fler individuella repositories.
 
 Loggning kunde lagts in i synnerhet för spår eller debug som då också behöver saniteras innan det sparas i DB.
+
+Info kring databasanslutning ligger inlagt med '.' för maskinen det körs på och med windows autentisering gentemot databasen, således behövs läs- och skrivrättigheter
+till DB där det körs,  samt rättigheter för att skapa osv. vid körning av dotnet ef database update.
