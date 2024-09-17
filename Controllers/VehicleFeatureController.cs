@@ -20,9 +20,9 @@ public class VehicleFeatureController : ControllerBase
     }
 
     [HttpGet(Name = "VehicleFeatures")]
-    public Task<List<VehicleFeatureDTO>> GetVehicleFeatures()
+    public async Task<List<VehicleFeatureDTO>> GetVehicleFeatures()
     {
-        return _repo.GetVehicleFeatures();
+        return await _repo.GetVehicleFeatures();
     }
 
     [HttpGet]

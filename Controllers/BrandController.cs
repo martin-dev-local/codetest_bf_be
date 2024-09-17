@@ -20,9 +20,9 @@ public class BrandController : ControllerBase
     }
 
     [HttpGet(Name = "Brands")]
-    public Task<List<BrandDTO>> GetBrands()
+    public async Task<List<BrandDTO>> GetBrands()
     {
-        return _repo.GetBrands();
+        return await _repo.GetBrands();
     }
 
     [HttpGet]
